@@ -271,7 +271,7 @@ public class N414XlsxController {
 /******************************************TCS UT N414 L - 2******************************************/
 /*****************************************************************************************************/		
 
-			/*Reading R1 the sheet*/
+			/*Reading L2 the sheet*/
 			Sheet L2sheet = wb.getSheet("TCS UT N414 L - 2");
 			
 			/* Locating the row and column */
@@ -386,6 +386,66 @@ public class N414XlsxController {
 			
 			cellL2AutoRatio.setCellValue((bean.getL2().getPerformanceType().getAutoratio()*100)+"%");
 
+                        
+/*****************************************************************************************************/
+/******************************************    Total_R&L    ******************************************/
+/*****************************************************************************************************/		
+
+/*Reading L2 the sheet*/
+try{
+			Sheet Total_R_Lsheet = wb.getSheet("Total_R&L");
+                        Iterator<Row> iteratorTotal_R_L = Total_R_Lsheet.iterator();
+			
+			
+			 System.out.println("Total_R&L Count :"+rowNumberL2);
+			
+			Row rowToInsertTotal_R_L = Total_R_Lsheet.getRow(rowNumber-1);
+			
+                        Cell cellTotalBegin = rowToInsertTotal_R_L.getCell(1);
+			Cell cellTotalEnd = rowToInsertTotal_R_L.getCell(2);
+			Cell cellTotalMax = rowToInsertTotal_R_L.getCell(3);
+			Cell cellTotalAantal= rowToInsertTotal_R_L.getCell(4);
+			Cell cellTotalGem_kmpuur= rowToInsertTotal_R_L.getCell(5);
+			Cell cellTotalMax_kmpuur= rowToInsertTotal_R_L.getCell(6);
+			Cell cellTotalTotal= rowToInsertTotal_R_L.getCell(7);
+			Cell cellTotalHand= rowToInsertTotal_R_L.getCell(8);
+			Cell cellTotalAuto= rowToInsertTotal_R_L.getCell(9);
+			Cell cellTotalDubbele_overtredingen_pardon= rowToInsertTotal_R_L.getCell(10);
+			Cell cellTotalOverig_pardon= rowToInsertTotal_R_L.getCell(11);
+			Cell cellTotalOvertredingenRatio= rowToInsertTotal_R_L.getCell(12);
+			Cell cellTotalHandhaafratio= rowToInsertTotal_R_L.getCell(13);
+			Cell cellTotalTijdVolledigBeschikbaar_in_minuten= rowToInsertTotal_R_L.getCell(14);
+			Cell cellTotalBeschikbaarheidsRatio=rowToInsertTotal_R_L.getCell(15);
+			Cell cellTotalMatchRatio= rowToInsertTotal_R_L.getCell(16);
+			Cell cellTotalProductMatchRatioRegistratieratio= rowToInsertTotal_R_L.getCell(17);
+			Cell cellTotalAutoRatio= rowToInsertTotal_R_L.getCell(18);
+                        
+                        /*Setting the total cell value*/
+                        
+                        
+                        cellTotalBegin.setCellFormula("'TCS UT N414 R - 1'!B"+rowNumber+"+'TCS UT N414 L - 2'!B"+rowNumber+"");
+			cellTotalEnd.setCellFormula("'TCS UT N414 R - 1'!C"+rowNumber+"+'TCS UT N414 L - 2'!C"+rowNumber+"");
+			cellTotalMax.setCellFormula("MAX(B"+rowNumber+":C"+rowNumber+")");
+			cellTotalAantal.setCellFormula("'TCS UT N414 R - 1'!E"+rowNumber+"+'TCS UT N414 L - 2'!E"+rowNumber+"");
+			cellTotalGem_kmpuur.setCellFormula("IFERROR(AVERAGE('TCS UT N414 R - 1'!F"+rowNumber+",'TCS UT N414 L - 2'!F"+rowNumber+"),\"\")");
+			cellTotalMax_kmpuur.setCellFormula("MAX('TCS UT N414 R - 1'!G"+rowNumber+",'TCS UT N414 L - 2'!G"+rowNumber+")");
+			cellTotalTotal.setCellFormula("'TCS UT N414 R - 1'!H"+rowNumber+"+'TCS UT N414 L - 2'!H"+rowNumber+"");
+			cellTotalHand.setCellFormula("'TCS UT N414 R - 1'!I"+rowNumber+"+'TCS UT N414 L - 2'!I"+rowNumber+"");
+			cellTotalAuto.setCellFormula("'TCS UT N414 R - 1'!J"+rowNumber+"+'TCS UT N414 L - 2'!J"+rowNumber+"");
+			cellTotalDubbele_overtredingen_pardon.setCellFormula("'TCS UT N414 R - 1'!K"+rowNumber+"+'TCS UT N414 L - 2'!K"+rowNumber+"");
+			cellTotalOverig_pardon.setCellFormula("'TCS UT N414 R - 1'!L"+rowNumber+"+'TCS UT N414 L - 2'!L"+rowNumber+"");
+			cellTotalOvertredingenRatio.setCellFormula("IF(H"+rowNumber+"=0,\"\",AVERAGE('TCS UT N414 R - 1'!M"+rowNumber+",'TCS UT N414 L - 2'!M"+rowNumber+"))");
+			cellTotalHandhaafratio.setCellFormula("IFERROR(AVERAGE('TCS UT N414 R - 1'!N"+rowNumber+",'TCS UT N414 L - 2'!N"+rowNumber+"),\"\")");
+			cellTotalTijdVolledigBeschikbaar_in_minuten.setCellFormula("IFERROR(AVERAGE('TCS UT N414 R - 1'!O"+rowNumber+",'TCS UT N414 L - 2'!O"+rowNumber+"),\"\")");
+			cellTotalBeschikbaarheidsRatio.setCellFormula("IFERROR(AVERAGE('TCS UT N414 R - 1'!P"+rowNumber+",'TCS UT N414 L - 2'!P"+rowNumber+"),\"\")");
+			cellTotalMatchRatio.setCellFormula("IFERROR(AVERAGE('TCS UT N414 R - 1'!Q"+rowNumber+",'TCS UT N414 L - 2'!Q"+rowNumber+"),\"\")");
+			cellTotalProductMatchRatioRegistratieratio.setCellFormula("IFERROR(AVERAGE('TCS UT N414 R - 1'!R"+rowNumber+",'TCS UT N414 L - 2'!R"+rowNumber+"),\"\")");
+			cellTotalAutoRatio.setCellFormula("IFERROR(AVERAGE('TCS UT N414 R - 1'!S"+rowNumber+",'TCS UT N414 L - 2'!S"+rowNumber+"),\"\")");
+}catch(Exception ex)
+{
+    System.err.println("Error in the total sheet "+ex);
+}
+                        
 			/* Write the output to a file */
 			try (OutputStream fileOut = new FileOutputStream(path)) {
 				wb.write(fileOut);
