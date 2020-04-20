@@ -223,8 +223,7 @@ public class N414XlsxController {
 			/* Setting cell value */
 			cellR1Begin.setCellValue(bean.getR1().getpassagesType().getTotalIn());
 			cellR1End.setCellValue(bean.getR1().getpassagesType().getTotalUit());
-			int maxR1=(bean.getR1().getpassagesType().getTotalIn()>bean.getR1().getpassagesType().getTotalUit())?bean.getR1().getpassagesType().getTotalIn():bean.getR1().getpassagesType().getTotalUit();
-			cellR1Max.setCellValue(maxR1);
+			cellR1Max.setCellFormula("IF(MAX(B"+rowNumber+":C"+rowNumber+")=0,\"\",MAX(B"+rowNumber+":C"+rowNumber+"))");
 			cellR1Aantal.setCellValue(bean.getR1().getMatches());
 			cellR1Gem_kmpuur.setCellValue(bean.getR1().getsnelhedenType().getGemiddeld());
 			cellR1Max_kmpuur.setCellValue(bean.getR1().getsnelhedenType().getMax());
@@ -238,7 +237,7 @@ public class N414XlsxController {
 			cellR1Handhaafratio.setCellValue((bean.getR1().getPerformanceType().getHandhaafratio()*100)+"%");
 			
 
-	    	String tijdvolledigbeschiPerkbaarR1=bean.getR1().getPerformanceType().getTijdvolledigbeschikbaar();
+                        String tijdvolledigbeschiPerkbaarR1=bean.getR1().getPerformanceType().getTijdvolledigbeschikbaar();
 			int daysR1=Integer.parseInt(tijdvolledigbeschiPerkbaarR1.substring(1,tijdvolledigbeschiPerkbaarR1.indexOf('D')));
 			int hoursR1=Integer.parseInt(tijdvolledigbeschiPerkbaarR1.substring(tijdvolledigbeschiPerkbaarR1.indexOf('T')+1,tijdvolledigbeschiPerkbaarR1.indexOf('H')));
 			int minutesR1=Integer.parseInt(tijdvolledigbeschiPerkbaarR1.substring(tijdvolledigbeschiPerkbaarR1.indexOf('H')+1,tijdvolledigbeschiPerkbaarR1.indexOf('M')));
@@ -334,8 +333,7 @@ public class N414XlsxController {
 			/* Setting cell value */
 			cellL2Begin.setCellValue(bean.getL2().getpassagesType().getTotalIn());
 			cellL2End.setCellValue(bean.getL2().getpassagesType().getTotalUit());
-			int max=(bean.getL2().getpassagesType().getTotalIn()>bean.getL2().getpassagesType().getTotalUit())?bean.getL2().getpassagesType().getTotalIn():bean.getL2().getpassagesType().getTotalUit();
-			cellL2Max.setCellValue(max);
+                        cellL2Max.setCellFormula("IF(MAX(B"+rowNumber+":C"+rowNumber+")=0,\"\",MAX(B"+rowNumber+":C"+rowNumber+"))");
 			cellL2Aantal.setCellValue(bean.getL2().getMatches());
 			cellL2Gem_kmpuur.setCellValue(bean.getL2().getSnelheden().getGemiddeld());
 			cellL2Max_kmpuur.setCellValue(bean.getL2().getSnelheden().getMax());
