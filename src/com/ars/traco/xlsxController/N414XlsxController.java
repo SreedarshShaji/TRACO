@@ -41,6 +41,8 @@ import javax.swing.JOptionPane;
  */
 public class N414XlsxController {
 
+    public DecimalFormat dec = new DecimalFormat("#0.00");
+    
 	public boolean handleXlsx(String inputFile,Sectie bean) {
 
 		boolean result=false;
@@ -225,15 +227,24 @@ public class N414XlsxController {
 			cellR1End.setCellValue(bean.getR1().getpassagesType().getTotalUit());
 			cellR1Max.setCellFormula("IF(MAX(B"+rowNumber+":C"+rowNumber+")=0,\"\",MAX(B"+rowNumber+":C"+rowNumber+"))");
 			cellR1Aantal.setCellValue(bean.getR1().getMatches());
-			cellR1Gem_kmpuur.setCellValue(bean.getR1().getsnelhedenType().getGemiddeld());
-			cellR1Max_kmpuur.setCellValue(bean.getR1().getsnelhedenType().getMax());
+                        
+                        /*Setting the decimal preciosion points*/
+                        String r1Gem_kmpuur=dec.format(Math.ceil(bean.getR1().getsnelhedenType().getGemiddeld()));
+                        String r1Max_kmpuur=dec.format(Math.ceil(bean.getR1().getsnelhedenType().getMax()));
+                        
+			cellR1Gem_kmpuur.setCellValue(r1Gem_kmpuur);
+			cellR1Max_kmpuur.setCellValue(r1Max_kmpuur);
 			
 			cellR1Total.setCellValue(bean.getR1().getOvertredingenType().getOvertredingenTotaal());
 			cellR1Hand.setCellValue(bean.getR1().getOvertredingenType().getHand());
 			cellR1Auto.setCellValue(bean.getR1().getOvertredingenType().getAuto());
 			cellR1Dubbele_overtredingen_pardon.setCellValue(bean.getR1().getOvertredingenType().getDubbeleOvertredingenPardon());
 			cellR1Overig_pardon.setCellValue(bean.getR1().getOvertredingenType().getOverigPardon());
-			cellR1OvertredingenRatio.setCellValue((bean.getR1().getPerformanceType().getOvertredingenratio()*100)+"%");
+                        
+                        String R1OvertredingenRatio=dec.format((bean.getR1().getPerformanceType().getOvertredingenratio())*100);
+			cellR1OvertredingenRatio.setCellValue(R1OvertredingenRatio+"%");
+                        
+                        
 			cellR1Handhaafratio.setCellValue((bean.getR1().getPerformanceType().getHandhaafratio()*100)+"%");
 			
 
@@ -335,8 +346,13 @@ public class N414XlsxController {
 			cellL2End.setCellValue(bean.getL2().getpassagesType().getTotalUit());
                         cellL2Max.setCellFormula("IF(MAX(B"+rowNumber+":C"+rowNumber+")=0,\"\",MAX(B"+rowNumber+":C"+rowNumber+"))");
 			cellL2Aantal.setCellValue(bean.getL2().getMatches());
-			cellL2Gem_kmpuur.setCellValue(bean.getL2().getSnelheden().getGemiddeld());
-			cellL2Max_kmpuur.setCellValue(bean.getL2().getSnelheden().getMax());
+                                                
+                        /* Set decimal precison points */
+                        String l1Gem_kmpuur=dec.format(Math.ceil(bean.getL2().getSnelheden().getGemiddeld()));
+                        String l1Max_kmpuur=dec.format(Math.ceil(bean.getL2().getSnelheden().getMax()));
+                        
+			cellL2Gem_kmpuur.setCellValue(l1Gem_kmpuur);
+			cellL2Max_kmpuur.setCellValue(l1Max_kmpuur);
 			
 			cellL2Total.setCellValue(bean.getL2().getOvertredingenType().getOvertredingenTotaal());
 			cellL2Hand.setCellValue(bean.getL2().getOvertredingenType().getHand());

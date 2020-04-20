@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ars.traco.main;
+package com.ars.test;
+
+import java.text.DecimalFormat;
 
 /**
  *
- * @author Sreedarshs
+ * @author ADMIN
  */
-public class TracoBuild10 {
-
-    /**
-     * @param args the command line arguments
-     */
+public class Test1 {
     public static void main(String[] args) {
-       new com.ars.traco.gui.Main().setVisible(true);       
+        double no=12.7;
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        String output=dec.format(no);
+        System.out.println(output);
     }
-    
 }
