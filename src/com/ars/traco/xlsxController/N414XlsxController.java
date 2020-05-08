@@ -215,14 +215,14 @@ public class N414XlsxController {
             cellR1Max.setCellFormula("IF(MAX(B" + rowNumber + ":C" + rowNumber + ")=0,\"\",MAX(B" + rowNumber + ":C" + rowNumber + "))");
             cellR1Aantal.setCellValue(bean.getR1().getMatches());
 
-            /*Setting the decimal preciosion points*/
+            /*Setting the decimal preciosion points
             String r1Gem_kmpuur = dec.format(Math.ceil(bean.getR1().getsnelhedenType().getGemiddeld()));
-            String r1Max_kmpuur = dec.format(Math.ceil(bean.getR1().getsnelhedenType().getMax()));
+            String r1Max_kmpuur = dec.format(Math.ceil(bean.getR1().getsnelhedenType().getMax()));*/
 
             
             
-            cellR1Gem_kmpuur.setCellValue(Double.valueOf(r1Gem_kmpuur));
-            cellR1Max_kmpuur.setCellValue(r1Max_kmpuur);
+            cellR1Gem_kmpuur.setCellValue(bean.getR1().getsnelhedenType().getGemiddeld());
+            cellR1Max_kmpuur.setCellValue(bean.getR1().getsnelhedenType().getMax());
 
             cellR1Total.setCellValue(bean.getR1().getOvertredingenType().getOvertredingenTotaal());
             cellR1Hand.setCellValue(bean.getR1().getOvertredingenType().getHand());
@@ -244,13 +244,12 @@ public class N414XlsxController {
 
             cellR1BeschikbaarheidsRatio.setCellFormula("IF((O" + rowNumber + "/1440)=0,\"\",(O" + rowNumber + "/1440))");
 
-            Double matchRatio = (bean.getR1().getPerformanceType().getMatchratio());
-            matchRatio = BigDecimal.valueOf(matchRatio).setScale(2, RoundingMode.HALF_UP).doubleValue();
-            cellR1MatchRatio.setCellValue(matchRatio);
+            /* Tested */
+            cellR1MatchRatio.setCellValue(bean.getR1().getPerformanceType().getMatchratio());
 
             cellR1ProductMatchRatioRegistratieratio.setCellFormula("IF((Q" + rowNumber + "*'Total Systemperformance'!$C$6)=0,\"\",(Q" + rowNumber + "*'Total Systemperformance'!$C$6))");
 
-            cellR1AutoRatio.setCellValue((bean.getR1().getPerformanceType().getAutoratio() * 100) + "%");
+            cellR1AutoRatio.setCellValue((bean.getR1().getPerformanceType().getAutoratio()));
 
             /**
              * **************************************************************************************************
@@ -329,12 +328,13 @@ public class N414XlsxController {
             cellL2Max.setCellFormula("IF(MAX(B" + rowNumber + ":C" + rowNumber + ")=0,\"\",MAX(B" + rowNumber + ":C" + rowNumber + "))");
             cellL2Aantal.setCellValue(bean.getL2().getMatches());
 
-            /* Set decimal precison points */
-            String l1Gem_kmpuur = dec.format(Math.ceil(bean.getL2().getSnelheden().getGemiddeld()));
-            String l1Max_kmpuur = dec.format(Math.ceil(bean.getL2().getSnelheden().getMax()));
+            /* Set decimal precison points
+            String l1Gem_kmpuur = dec.format();
+            String l1Max_kmpuur = dec.format(Math.ceil());
+             */
 
-            cellL2Gem_kmpuur.setCellValue(Double.valueOf(l1Gem_kmpuur));
-            cellL2Max_kmpuur.setCellValue(l1Max_kmpuur);
+            cellL2Gem_kmpuur.setCellValue(bean.getL2().getSnelheden().getGemiddeld());
+            cellL2Max_kmpuur.setCellValue(bean.getL2().getSnelheden().getMax());
 
             cellL2Total.setCellValue(bean.getL2().getOvertredingenType().getOvertredingenTotaal());
             cellL2Hand.setCellValue(bean.getL2().getOvertredingenType().getHand());
@@ -361,11 +361,11 @@ public class N414XlsxController {
             Double matchRatioL2 = (bean.getL2().getPerformanceType().getMatchratio());
             matchRatioL2 = BigDecimal.valueOf(matchRatioL2).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-            cellL2MatchRatio.setCellValue(matchRatioL2);
+            cellL2MatchRatio.setCellValue(bean.getL2().getPerformanceType().getMatchratio());
 
             cellL2ProductMatchRatioRegistratieratio.setCellFormula("IF((Q" + rowNumber + "*'Total Systemperformance'!$C$6)=0,\"\",(Q" + rowNumber + "*'Total Systemperformance'!$C$6))");
 
-            cellL2AutoRatio.setCellValue((bean.getL2().getPerformanceType().getAutoratio() * 100) + "%");
+            cellL2AutoRatio.setCellValue((bean.getL2().getPerformanceType().getAutoratio()));
 
             /**
              * **************************************************************************************************
