@@ -231,7 +231,7 @@ public class N414XlsxController {
             cellR1Overig_pardon.setCellValue(bean.getR1().getOvertredingenType().getOverigPardon());
 
             String R1OvertredingenRatio = dec.format((bean.getR1().getPerformanceType().getOvertredingenratio()) * 100);
-            cellR1OvertredingenRatio.setCellValue(R1OvertredingenRatio + "%");
+            cellR1OvertredingenRatio.setCellValue((bean.getR1().getPerformanceType().getOvertredingenratio()));
 
             cellR1Handhaafratio.setCellValue(bean.getR1().getPerformanceType().getHandhaafratio());
 
