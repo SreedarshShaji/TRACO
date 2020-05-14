@@ -9,6 +9,7 @@ import com.ars.traco.databeans.n414.Sectie;
 import com.ars.traco.filehandler.FileClassifier;
 import com.ars.traco.xlsxController.N414XlsxController;
 import com.ars.traco.xmlparser.XMLn414Parser;
+import java.awt.Desktop;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -29,6 +30,7 @@ public class Main extends javax.swing.JFrame {
     private boolean fileSelected = false;
     private boolean filepProcessed = false;
     private boolean completed = false;
+    private String processedPath=null;
 
     public Main() {
         initComponents();
@@ -64,6 +66,7 @@ public class Main extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,35 +79,49 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Choose a file");
+        jLabel2.setText("Choose XML");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ars/traco/gui/icons/icon3.png"))); // NOI18N
         jLabel3.setEnabled(false);
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel3MousePressed(evt);
+            }
+        });
 
         jLabel4.setText("Waiting For File");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel5.setText("-");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                .addGap(80, 80, 80)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
-                        .addComponent(jLabel3))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(104, 104, 104))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(88, Short.MAX_VALUE))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 95, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(110, 110, 110)
+                .addGap(80, 80, 80)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
@@ -112,7 +129,9 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addGap(54, 54, 54)
+                .addComponent(jLabel5)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,6 +171,10 @@ public class Main extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Application accepts XML files.\n Found " + extension + ".", "File Type mismatch", JOptionPane.WARNING_MESSAGE);
                 jLabel3.setEnabled(false);
             }
+            else{
+                JOptionPane.showMessageDialog (null,  "Current file selected: "+file.getName(),"File selected", JOptionPane.INFORMATION_MESSAGE);
+                jLabel5.setText("File Selected :"+file.getName());
+            }
 
             //Classify the file category
             String fileCategory=new FileClassifier().fileClassifier(file.getAbsolutePath());
@@ -169,18 +192,19 @@ public class Main extends javax.swing.JFrame {
             //This is where a real application would open the file.
             System.out.println("Opening: " + file.getName() + ".");
             System.out.println("Opening: " + file.getAbsolutePath() + ".");
+            processedPath=file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('\\'));
             
             /*Main Business Logic*/
             
-            XMLn414Parser xmlp=new XMLn414Parser(file.getAbsolutePath());
+                XMLn414Parser xmlp=new XMLn414Parser(file.getAbsolutePath());
         	Sectie sectie=xmlp.getSectie();
         	N414XlsxController n414XlsxController=new N414XlsxController();
         	boolean writtenSuccessfully= n414XlsxController.handleXlsx(file.getAbsolutePath(), sectie);
         	if(writtenSuccessfully)
         	{
-        		JOptionPane.showMessageDialog(this, "Data written successfully.\n\n Please see the source folder for the result.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        		JOptionPane.showMessageDialog(this, "Report generated Successfully.\n\n Please see the source folder for the result.", "Success", JOptionPane.INFORMATION_MESSAGE);
         		jLabel3.setEnabled(true);
-        		jLabel4.setText("Data Added");
+        		jLabel4.setText("Open the folder");
         	}
         	else
         	{
@@ -200,6 +224,24 @@ public class Main extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
+        
+        if (processedPath==null)
+        {
+            JOptionPane.showMessageDialog(null,"Please select and process a file");
+        }
+        else
+        {
+            try{
+                Desktop.getDesktop().open(new File(processedPath+"//"));
+            }
+            catch(Exception ex){
+                System.out.println("File Exception");
+            }
+        }
+        
+    }//GEN-LAST:event_jLabel3MousePressed
 
     /**
      * @param args the command line arguments
@@ -308,6 +350,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
